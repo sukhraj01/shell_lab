@@ -1,30 +1,23 @@
 #!/bin/bash
 # Script to print a centered pyramid pattern with numbers
 
-# Get the number of rows from CLI input
-N=$1
+n="$1"
 
-# Validate input
-if [[ -z "$N" || "$N" -le 0 ]]; then
+# Validate input - check if it's a positive integer
+if ! [[ "$n" =~ ^[0-9]+$ ]] || [ "$n" -le 0 ]; then
     echo "Invalid input"
     exit 1
 fi
 
 # Print the pyramid
-for ((i=1; i<=N; i++)); do
-    # Calculate leading spaces
-    spaces=$((2 * (N - i)))
+for ((i = 1; i <= n; i++)); do
+    # Print leading spaces using printf width specifier
+    printf "%*s" $(((n - i) * 2)) ""
 
-    # Print leading spaces
-    for ((j=0; j<spaces; j++)); do
-        printf " "
+    # Print numbers from 1 to (2*i - 1) with trailing spaces
+    for ((j = 1; j <= 2*i - 1; j++)); do
+        printf "%d " "$j"
     done
 
-    # Print numbers from 1 to (2*i - 1)
-    for ((j=1; j<=(2*i - 1); j++)); do
-        printf "%d " $j
-    done
-
-    # Print newline
     printf "\n"
 done
